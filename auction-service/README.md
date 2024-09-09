@@ -18,6 +18,13 @@ This template does not include any kind of persistence (database). For more adva
 
 ## Usage
 
+### To run locally
+
+```
+serverless invoke local --function createAuction --path test-data.json
+```
+
+
 ### Deployment
 
 In order to deploy the example, you need to run the following command:
