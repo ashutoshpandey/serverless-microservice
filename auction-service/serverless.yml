@@ -20,9 +20,22 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: status
+            AttributeType: S
+          - AttributeName: endingAt
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: statusAndEndDate
+            KeySchema:
+              - AttributeName: status
+                KeyType: HASH
+              - AttributeName: endingAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
 
 functions:
   createAuction:
@@ -55,12 +68,18 @@ functions:
       - httpApi:
           method: delete
           path: /auction/{id}
+
   placeBid:
     handler: src/handlers/placeBid.handler
     events:
       - httpApi:
           method: patch
           path: /auction/{id}/bid
+
+  processAuctions:
+    handler: src/handlers/processAuctions.handler
+    events:
+      - schedule: rate(1 minute)
 
 custom:
   AuctionsTable:
