@@ -9,20 +9,20 @@ This template does not include any kind of persistence (database). For more adva
 ### To run locally
 
 ```
-serverless invoke local --function createAuction --path test-data.json
-example: {"body": {"title": "First"}}
+serverless invoke local --function createAuction --path test-data/create-auction.json
+example: {"body": "body": "{\"title\": \"First\"}"}
 
-serverless invoke local --function readAuctions --path test-data.json
+serverless invoke local --function readAuctions --path test-data/read-auctions.json
 example: {"queryStringParameters": {"limit":"5"}}
 example: {"queryStringParameters": {"limit":"5", "lastEvaluatedKey": "some-id"}}
 
-serverless invoke local --function readAuction --path test-data.json
+serverless invoke local --function readAuction --path test-data/read-auction.json
 example: {"pathParameters": {"id":"some-id"}}
 
-serverless invoke local --function updateAuction --path test-data.json
+serverless invoke local --function updateAuction --path test-data/update-auction.json
 example: {"pathParameters": {"id":"some-id"},"body": {"title": "First"}}
 
-serverless invoke local --function deleteAuction --path test-data.json
+serverless invoke local --function deleteAuction --path test-data/delete-auction.json
 example: {"pathParameters": {"id":"some-id"}}
 ```
 

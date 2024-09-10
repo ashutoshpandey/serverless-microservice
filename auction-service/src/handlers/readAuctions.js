@@ -1,4 +1,8 @@
 import AWS from 'aws-sdk';
+import middy from '@middy/core';
+import createError from 'http-errors';
+import httpErrorHandler from '@middy/http-error-handler';
+import httpEventNormalizer from '@middy/http-event-normalizer';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -13,7 +17,13 @@ async function readAuctions(event, context) {
         }
     };
 
-    const result = await dynamodb.scan(params).promise();
+    let result = null;
+    try {
+        result = await dynamodb.scan(params).promise();
+    } catch (error) {
+        console.log(error);
+        throw new createError.InternalServerError(error);
+    }
 
     return {
         statusCode: 200,
@@ -24,4 +34,6 @@ async function readAuctions(event, context) {
     };
 };
 
-export const handler = readAuctions;
+export const handler = middy(readAuctions)
+    .use(httpEventNormalizer())
+    .use(httpErrorHandler());

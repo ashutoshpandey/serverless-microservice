@@ -1,4 +1,8 @@
 import AWS from 'aws-sdk';
+import middy from '@middy/core';
+import createError from 'http-errors';
+import httpErrorHandler from '@middy/http-error-handler';
+import httpEventNormalizer from '@middy/http-event-normalizer';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -10,9 +14,15 @@ async function readAuction(event, context) {
         Key: { id },
     };
 
-    const result = await dynamodb.get(params).promise();
+    let result = null;
+    try {
+        result = await dynamodb.get(params).promise();
+    } catch (error) {
+        console.log(error);
+        throw new createError.InternalServerError(error);
+    }
 
-    if (!result.Item) {
+    if (!result || !result.Item) {
         return {
             statusCode: 404,
             body: JSON.stringify({ error: 'Auction not found' }),
@@ -25,4 +35,6 @@ async function readAuction(event, context) {
     };
 };
 
-export const handler = readAuction;
+export const handler = middy(readAuction)
+    .use(httpEventNormalizer())
+    .use(httpErrorHandler());
