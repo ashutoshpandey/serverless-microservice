@@ -1,9 +1,6 @@
 import AWS from 'aws-sdk';
-import middy from '@middy/core';
 import createError from 'http-errors';
-import httpErrorHandler from '@middy/http-error-handler';
-import httpJsonBodyParser from '@middy/http-json-body-parser';
-import httpEventNormalizer from '@middy/http-event-normalizer';
+import bodyMiddleware from '../middlewares/bodyMiddleware.js';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -25,7 +22,7 @@ async function updateAuction(event, context) {
         ReturnValues: 'ALL_NEW',
     };
 
-    const result = null;
+    let result = null;
     try {
         result = await dynamodb.update(params).promise();
     } catch (error) {
@@ -39,7 +36,4 @@ async function updateAuction(event, context) {
     };
 };
 
-export const handler = middy(updateAuction)
-    .use(httpJsonBodyParser())
-    .use(httpEventNormalizer())
-    .use(httpErrorHandler());
+export const handler = bodyMiddleware(updateAuction);

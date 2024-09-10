@@ -1,7 +1,5 @@
 import AWS from 'aws-sdk';
-import middy from '@middy/core';
-import httpErrorHandler from '@middy/http-error-handler';
-import httpEventNormalizer from '@middy/http-event-normalizer';
+import pathMiddleware from '../middlewares/pathMiddleware.js';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -35,6 +33,4 @@ async function deleteAuction(event, context) {
   };
 };
 
-export const handler = middy(deleteAuction)
-  .use(httpEventNormalizer())
-  .use(httpErrorHandler());
+export const handler = pathMiddleware(deleteAuction);

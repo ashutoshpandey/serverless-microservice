@@ -55,6 +55,12 @@ functions:
       - httpApi:
           method: delete
           path: /auction/{id}
+  placeBid:
+    handler: src/handlers/placeBid.handler
+    events:
+      - httpApi:
+          method: patch
+          path: /auction/{id}/bid
 
 custom:
   AuctionsTable:

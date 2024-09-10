@@ -10,20 +10,20 @@ This template does not include any kind of persistence (database). For more adva
 
 ```
 serverless invoke local --function createAuction --path test-data/create-auction.json
-example: {"body": "body": "{\"title\": \"First\"}"}
+example of create-auction.json: {"body": "body": "{\"title\": \"First\"}"}
 
 serverless invoke local --function readAuctions --path test-data/read-auctions.json
-example: {"queryStringParameters": {"limit":"5"}}
-example: {"queryStringParameters": {"limit":"5", "lastEvaluatedKey": "some-id"}}
+example of read-auctions.json: {"queryStringParameters": {"limit":"5"}}
+example of read-auctions.json: {"queryStringParameters": {"limit":"5", "lastEvaluatedKey": "some-id"}}
 
 serverless invoke local --function readAuction --path test-data/read-auction.json
-example: {"pathParameters": {"id":"some-id"}}
+example of read-auction.json: {"pathParameters": {"id":"some-id"}}
 
 serverless invoke local --function updateAuction --path test-data/update-auction.json
-example: {"pathParameters": {"id":"some-id"},"body": {"title": "First"}}
+example of update-auction.json: {"pathParameters": {"id":"some-id"},"body": {"title": "First"}}
 
 serverless invoke local --function deleteAuction --path test-data/delete-auction.json
-example: {"pathParameters": {"id":"some-id"}}
+example of delete-auction.json: {"pathParameters": {"id":"some-id"}}
 ```
 
 ### Deployment
