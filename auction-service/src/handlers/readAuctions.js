@@ -6,7 +6,7 @@ async function readAuctions(event, context) {
     const { limit, lastEvaluatedKey } = event.queryStringParameters || {};
 
     const params = {
-        TableName: 'AuctionsTable',
+        TableName: process.env.AUCTIONS_TABLE_NAME,
         Limit: limit ? parseInt(limit) : 10,
         ExclusiveStartKey: {
             id: lastEvaluatedKey ? lastEvaluatedKey : null

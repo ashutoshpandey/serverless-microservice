@@ -6,7 +6,7 @@ async function deleteAuction(event, context) {
   const { id } = event.pathParameters;
 
   const params = {
-    TableName: 'AuctionsTable',
+    TableName: process.env.AUCTIONS_TABLE_NAME,
     Key: { id },
     UpdateExpression: 'set #status = :status',
     ExpressionAttributeValues: {

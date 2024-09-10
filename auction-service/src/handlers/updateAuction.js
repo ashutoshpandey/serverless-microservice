@@ -7,7 +7,7 @@ async function updateAuction(event, context) {
     const { title, status } = event.body;
 
     const params = {
-        TableName: 'AuctionsTable',
+        TableName: process.env.AUCTIONS_TABLE_NAME,
         Key: { id },
         UpdateExpression: 'set title = :title, #status = :status',
         ExpressionAttributeValues: {
