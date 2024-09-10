@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "babel-core": "^6.26.3"
+    "aws-sdk": "^2.1691.0",
+    "babel-core": "^6.26.3",
+    "uuid": "^10.0.0"
   }
 }

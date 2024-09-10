@@ -1,15 +1,3 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v4
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, Inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
-
 # Serverless Framework Node HTTP API on AWS
 
 This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
@@ -24,13 +12,16 @@ This template does not include any kind of persistence (database). For more adva
 serverless invoke local --function createAuction --path test-data.json
 ```
 
-
 ### Deployment
 
 In order to deploy the example, you need to run the following command:
 
 ```
 serverless deploy
+
+or
+
+serverless deploy --stage dev
 ```
 
 After running deploy, you should see output similar to:
@@ -42,7 +33,7 @@ Deploying "serverless-http-api" to stage "dev" (us-east-1)
 
 endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
 functions:
-  hello: serverless-http-api-dev-hello (1.6 kB)
+  createAuction: auction-service-dev-createAuction (4.4 MB)
 ```
 
 _Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [HTTP API (API Gateway V2) event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api).
@@ -52,13 +43,20 @@ _Note_: In current form, after deployment, your API is public and can be invoked
 After successful deployment, you can call the created application via HTTP:
 
 ```
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
+POST https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
+
+{
+  "title": "Some title"
+}
 ```
 
 Which should result in response similar to:
 
 ```json
-{ "message": "Go Serverless v4! Your function executed successfully!" }
+{
+  "status": "OPEN",
+  "createdAt": "2024-09-10T03:13:37Z"
+}
 ```
 
 ### Local development
