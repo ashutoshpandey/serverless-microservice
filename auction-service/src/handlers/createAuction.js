@@ -3,7 +3,7 @@ import AWS from 'aws-sdk';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-exports.handler = async (event, context) => {
+async function createAuction(event, context) {
   const { title } = event.body;
   const now = new Date();
 
@@ -24,3 +24,5 @@ exports.handler = async (event, context) => {
     body: JSON.stringify(auction),
   };
 };
+
+export const handler = createAuction;

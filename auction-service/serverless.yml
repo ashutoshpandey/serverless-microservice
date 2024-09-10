@@ -27,5 +27,29 @@ functions:
     handler: src/handlers/createAuction.handler
     events:
       - httpApi:
-          method: POST
+          method: post
           path: /auction
+  readAuctions:
+    handler: src/handlers/readAuctions.handler
+    events:
+      - httpApi:
+          method: get
+          path: /auction
+  readAuction:
+    handler: src/handlers/readAuction.handler
+    events:
+      - httpApi:
+          method: get
+          path: /auction/{id}
+  updateAuction:
+    handler: src/handlers/updateAuction.handler
+    events:
+      - httpApi:
+          method: put
+          path: /auction/{id}
+  deleteAuction:
+    handler: src/handlers/deleteAuction.handler
+    events:
+      - httpApi:
+          method: delete
+          path: /auction/{id}
