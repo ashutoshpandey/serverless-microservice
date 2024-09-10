@@ -1,14 +1,23 @@
 import AWS from 'aws-sdk';
 import createError from 'http-errors';
 import pathMiddleware from '../middlewares/pathMiddleware.js';
+import readAuctionsSchema from '../schemas/readAuctionsSchema.js';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function readAuctions(event, context) {
-    const { limit, lastEvaluatedKey } = event.queryStringParameters || {};
+    const { limit, status, lastEvaluatedKey } = event.queryStringParameters || {};
 
     const params = {
         TableName: process.env.AUCTIONS_TABLE_NAME,
+        IndexName: 'statusAndEndDate',
+        KeyConditionExpression: '#status = :status',
+        ExpressionAttributeValues: {
+            ':status': status
+        },
+        ExpressionAttributeNames: {
+            '#status': 'status'
+        },
         Limit: limit ? parseInt(limit) : 10,
         ExclusiveStartKey: {
             id: lastEvaluatedKey ? lastEvaluatedKey : null
@@ -32,4 +41,5 @@ async function readAuctions(event, context) {
     };
 };
 
-export const handler = pathMiddleware(readAuctions);
+export const handler = pathMiddleware(readAuctions)
+    .use(validator({ inputSchema: readAuctionsSchema, useDefaults: true }));

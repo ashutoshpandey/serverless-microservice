@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import createError from 'http-errors';
+import placeBidSchema from '../schemas/placeBidSchema.js';
 import bodyMiddleware from '../middlewares/bodyMiddleware.js';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -73,4 +74,5 @@ async function placeBid(event, context) {
     };
 };
 
-export const handler = bodyMiddleware(placeBid);
+export const handler = bodyMiddleware(placeBid)
+    .use(validator({ inputSchema: placeBidSchema }));
